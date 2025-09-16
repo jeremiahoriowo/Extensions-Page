@@ -1,0 +1,156 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Extensions</title>
+  <link href="./output.css" rel="stylesheet">
+  <style>
+    /* body{
+      background: linear-gradient(#ebf2fc,#effbf9);
+      background-repeat: no-repeat;
+      background-size: cover;
+      height: 97vh;
+    } */
+    /* .container{
+      margin: 2em 5em 1em 5em;
+    }
+
+    .logo{
+      width: 150px;
+    }
+
+    .mode{
+      background-color: #eeeef0;
+      padding: .7em .5em;
+      border-radius: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .mode img{
+      width: 75%;
+
+    }
+
+    .nav{
+      background-color: #fcfdff;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: .7em;
+      border-radius: 15px;
+      box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.203);
+    } */
+  </style>
+</head>
+
+<body class="bg-linear-to-t from-[#effbf9] to-[#ebf2fc] h-screen">
+  <div class="@container px-10 sm:px-28 py-8">
+    <div class="rounded-xl  shadow-md bg-[#fcfdff] flex justify-between p-[.7em]">
+      <img src="assets/images/logo.svg" class="logo w-[150px] " alt="">
+      <div class="mode bg-[#eeeef0] flex justify-center align-middle px-2 py-3 rounded-lg">
+        <img src="assets/images/icon-moon.svg" class="w-[75%]" alt="">
+      </div>
+
+    </div>
+
+    <div class="main-content sm:flex justify-between  mt-9">
+      <h3 class="flex mb-3 sm:mb-0 justify-center font-bold text-[#0e1541] text-xl  sm:text-2xl">Extensions List</h3>
+      <div class="toggle-buttons flex justify-center align-middle gap-1">
+        <button class="bg-[#c3271b] text-white py-1.5 px-4 rounded-4xl">All</button>
+        <button class="bg-white py-1.5 px-4 rounded-4xl">Active</button>
+        <button class="bg-white py-1.5 px-4 rounded-4xl">Inactive</button>
+      </div>
+    </div>
+    <div id="extensions" class="mt-9 grid md:grid-cols-3 gap-4">
+      <!-- Cards goes here -->
+      <!-- <div class="card bg-white p-4 rounded-2xl shadow-md">
+        <div class="top flex">
+          <img src="./assets/images/logo-devlens.svg" class="w-[50px]" alt="">
+          <div class="inner-content">
+            <p class="content-title ml-3 text-[#0e1541] font-bold">DevLens</p>
+            <div class="content-description ml-3 text-sm">Quickly inspect page layouts and visualize element boundaries.
+            </div>
+          </div>
+        </div>
+        <div class="bottom-content flex mt-10 justify-between">
+          <button
+            class="bg-white text-[#0e1541] font-bold text-xs py-1.5 px-4 border-[0.1px] border-black rounded-4xl">Remove</button>
+          <label for="toggle" class="flex items-center cursor-pointer">
+            
+            <input id="toggle" type="checkbox" class="sr-only peer"/>
+
+            
+            <span class="w-10 h-6 bg-[#c6c6c8] rounded-full p-[2px] flex items-center duration-300 ease-in-out 
+           peer-checked:bg-[#ce261d]
+           after:content-[''] after:w-5 after:h-5 after:bg-white after:rounded-full after:shadow-md after:duration-300 
+           peer-checked:after:translate-x-4">
+            </span>
+          </label>
+        </div>
+      </div> -->
+    </div>
+  </div>
+
+
+  <script>
+    console.log("hello");
+    async function fetchJSON() {
+      try {
+        const response = await fetch('data.json'); // Replace with your JSON URL
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log(data);
+        generateCards(data);
+      } catch (error) {
+        console.error('Error fetching JSON:', error);
+      }
+    }
+
+    function generateCards(data) {
+      let extensions = document.getElementById('extensions');
+      // let card = document.createElement('div');
+      // card.className = "card bg-white p-4 rounded-2xl shadow-md";
+      data.forEach((e , index)=> {
+        extensions.innerHTML += `<div class="card bg-white p-4 rounded-2xl shadow-md">
+        <div class="top flex">
+          <img src="${e.logo}" class="w-[50px]" alt="">
+          <div class="inner-content">
+            <p class="content-title ml-3 text-[#0e1541] font-bold">${e.name}</p>
+            <div class="content-description ml-3 text-sm">${e.description}
+            </div>
+          </div>
+        </div>
+        <div class="bottom-content flex mt-10 justify-between">
+          <button
+            class="bg-white text-[#0e1541] font-bold text-xs py-1.5 px-4 border-1 border-black rounded-4xl">Remove</button>
+          <label for="toggle${index}" class="flex items-center cursor-pointer">
+            <!-- Hidden Checkbox -->
+            <input id="toggle${index}" type="checkbox" class="sr-only peer" ${e.isActive ? "checked" : ""}/>
+
+            <!-- Switch -->
+            <span class="w-10 h-6 bg-[#c6c6c8] rounded-full p-[2px] flex items-center duration-300 ease-in-out 
+           peer-checked:bg-[#ce261d]
+           after:content-[''] after:w-5 after:h-5 after:bg-white after:rounded-full after:shadow-md after:duration-300 
+           peer-checked:after:translate-x-4">
+            </span>
+          </label>
+        </div>
+      </div>`;
+        console.log(extensions.innerHTML);
+
+      });
+    }
+
+    fetchJSON();
+
+  </script>
+
+</body>
+
+</html>
