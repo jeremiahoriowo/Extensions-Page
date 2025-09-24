@@ -1,1 +1,12 @@
 @import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer components{
+    .btn{
+        @apply dark:bg-[#2f354b] bg-white dark:text-white py-1.5 px-4 rounded-4xl;
+    }
+    .active{
+        @apply bg-[#c3271b] text-white dark:text-[#0c132d];
+    }
+}

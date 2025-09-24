@@ -7,63 +7,24 @@
   <title>Extensions</title>
   <link href="./output.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-  <style>
-    /* body{
-      background: linear-gradient(#ebf2fc,#effbf9);
-      background-repeat: no-repeat;
-      background-size: cover;
-      height: 97vh;
-    } */
-    /* .container{
-      margin: 2em 5em 1em 5em;
-    }
-
-    .logo{
-      width: 150px;
-    }
-
-    .mode{
-      background-color: #eeeef0;
-      padding: .7em .5em;
-      border-radius: 10px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .mode img{
-      width: 75%;
-
-    }
-
-    .nav{
-      background-color: #fcfdff;
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      padding: .7em;
-      border-radius: 15px;
-      box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.203);
-    } */
-  </style>
 </head>
 
-<body class="bg-linear-to-t from-[#effbf9] to-[#ebf2fc] h-screen">
+<body class="bg-linear-to-t from-[#effbf9] dark:from-[#0a1640] to-[#ebf2fc] dark:to-[#04091c]">
   <div class="@container px-10 sm:px-28 py-8">
-    <div class="rounded-xl  shadow-md bg-[#fcfdff] flex justify-between p-[.7em]">
+    <div class="rounded-xl  shadow-md bg-[#fcfdff] dark:bg-[#1f2535] flex justify-between p-[.7em]">
       <img src="assets/images/logo.svg" class="logo w-[150px] " alt="">
-      <div class="mode bg-[#eeeef0] flex justify-center align-middle px-2 py-3 rounded-lg">
+      <div class="mode bg-[#eeeef0] flex justify-center align-middle px-2 py-3 rounded-lg" onclick="document.body.classList.toggle('dark')">
         <img src="assets/images/icon-moon.svg" class="w-[75%]" alt="">
       </div>
 
     </div>
 
     <div class="main-content sm:flex justify-between  mt-9">
-      <h3 class="flex mb-3 sm:mb-0 justify-center font-bold text-[#0e1541] text-xl  sm:text-2xl">Extensions List</h3>
-      <div class="toggle-buttons flex justify-center align-middle gap-1">
-        <button class="bg-[#c3271b] text-white py-1.5 px-4 rounded-4xl">All</button>
-        <button class="bg-white py-1.5 px-4 rounded-4xl">Active</button>
-        <button class="bg-white py-1.5 px-4 rounded-4xl">Inactive</button>
+      <h3 class="flex mb-3 sm:mb-0 justify-center font-bold text-[#0e1541] dark:text-white text-xl  sm:text-2xl">Extensions List</h3>
+      <div class="button-container flex justify-center align-middle gap-1">
+        <button id="all" class="btn active">All</button>
+        <button id="active" class="btn ">Active</button>
+        <button id="inactive" class="btn">Inactive</button>
       </div>
     </div>
     <div id="extensions" class="mt-9 grid md:grid-cols-3 gap-4">
@@ -99,6 +60,21 @@
 
   <script>
     console.log("hello");
+    let allBtn = document.getElementById("all");
+    let activeBtn = document.getElementById("active");
+    let inactiveBtn = document.getElementById("inactive");
+
+    const buttons = document.querySelectorAll('.btn');
+
+    buttons.forEach(button => {
+      button.addEventListener('click', function () {
+        buttons.forEach(btn => {
+          btn.classList.remove('active');
+        });
+        this.classList.add('active');
+      });
+    });
+
     async function fetchJSON() {
       try {
         const response = await fetch('data.json'); // Replace with your JSON URL
@@ -113,29 +89,29 @@
       }
     }
 
-    function generateCards(data) {
+    function generateCards(data, state) {
       let extensions = document.getElementById('extensions');
       // let card = document.createElement('div');
       // card.className = "card bg-white p-4 rounded-2xl shadow-md";
-      data.forEach((e , index)=> {
-        extensions.innerHTML += `<div class="card bg-white p-4 rounded-2xl shadow-md">
+      data.forEach((e, index) => {
+        extensions.innerHTML += `<div class="card bg-white dark:bg-[#1f2535] p-4 rounded-2xl shadow-md">
         <div class="top flex">
           <img src="${e.logo}" class="w-[50px]" alt="">
           <div class="inner-content">
-            <p class="content-title ml-3 text-[#0e1541] font-bold">${e.name}</p>
-            <div class="content-description ml-3 text-sm">${e.description}
+            <p class="content-title ml-3 dark:text-white text-[#0e1541] font-bold">${e.name}</p>
+            <div class="content-description ml-3 dark:text-white text-sm">${e.description}
             </div>
           </div>
         </div>
         <div class="bottom-content flex mt-10 justify-between">
           <button
-            class="bg-white text-[#0e1541] font-bold text-xs py-1.5 px-4 border-1 border-black rounded-4xl">Remove</button>
+            class="bg-white dark:bg-[#1f2535] dark:text-white text-[#0e1541] font-bold text-xs py-1.5 px-4 border-1 border-black dark:border-white rounded-4xl">Remove</button>
           <label for="toggle${index}" class="flex items-center cursor-pointer">
             <!-- Hidden Checkbox -->
             <input id="toggle${index}" type="checkbox" class="sr-only peer" ${e.isActive ? "checked" : ""}/>
 
             <!-- Switch -->
-            <span class="w-10 h-6 bg-[#c6c6c8] rounded-full p-[2px] flex items-center duration-300 ease-in-out 
+            <span class="w-10 h-6 bg-[#c6c6c8] dark:bg-[#52576a] rounded-full p-[2px] flex items-center duration-300 ease-in-out 
            peer-checked:bg-[#ce261d]
            after:content-[''] after:w-5 after:h-5 after:bg-white after:rounded-full after:shadow-md after:duration-300 
            peer-checked:after:translate-x-4">
@@ -143,7 +119,7 @@
           </label>
         </div>
       </div>`;
-        console.log(extensions.innerHTML);
+        // console.log(extensions.innerHTML);
 
       });
     }
